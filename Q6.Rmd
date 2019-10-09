@@ -1,0 +1,60 @@
+---
+title: "Q6"
+author: "David"
+date: '2019-03-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(knitr)
+library(twitteR)
+consumer_key = "dOLrbYfXjbDo7f7IZ3MFFDF4E"
+consumer_secret = "GKbWkDANMboESv0YwvSSZKWivvbIyEzhzZxroDIODY1thrk0Gz"
+access_token = "1050995496381120513-8E1z4xtsUYmNTjTRZCRLN4WYMkJjyZ"
+access_secret = "bAGtoWn9wR0EUKPybvr7yhK0FFaFJNRviV2LINV06pgRp"
+setup_twitter_oauth(consumer_key, consumer_secret,
+access_token, access_secret)
+```
+
+```{r}
+KS = userTimeline("kennedystewart", n=3200, includeRts = TRUE)
+mayor = twListToDF(KS)
+```
+
+a.
+```{r}
+library(stringr)
+tweet=mayor$text
+handle=str_match(tweet, "@\\w+")
+hashtag=str_match(tweet, "#\\w+")
+handle=na.omit(handle)
+hastag=na.omit(hashtag)
+```
+
+b.
+```{r}
+library(wordcloud)
+library(RColorBrewer)
+freq=table(handle)
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.25, "Handles in Tweets @kennedystewart")
+wordcloud(names(freq), freq, min.freq = 2, rot.per = 0.15,
+colors=brewer.pal(8, "Dark2"), random.order = FALSE, scale=c(1,0.3))
+```
+
+c.
+```{r}
+freq=table(hashtag)
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.25, "Hashtags in Tweets @kennedystewart")
+wordcloud(names(freq), freq, min.freq = 1, rot.per = 0.35,
+colors=brewer.pal(8, "Dark2"), random.order = FALSE, scale=c(4,0.3))
+```
