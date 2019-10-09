@@ -1,0 +1,39 @@
+---
+title: "Q1"
+author: "David"
+date: '2019-03-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(knitr)
+library(twitteR)
+consumer_key = "dOLrbYfXjbDo7f7IZ3MFFDF4E"
+consumer_secret = "GKbWkDANMboESv0YwvSSZKWivvbIyEzhzZxroDIODY1thrk0Gz"
+access_token = "1050995496381120513-8E1z4xtsUYmNTjTRZCRLN4WYMkJjyZ"
+access_secret = "bAGtoWn9wR0EUKPybvr7yhK0FFaFJNRviV2LINV06pgRp"
+setup_twitter_oauth(consumer_key, consumer_secret,
+access_token, access_secret)
+```
+a.
+```{r}
+JS = userTimeline("theJagmeetSingh", n=3200, includeRts = TRUE)
+JS = twListToDF(JS)
+nrow(JS)
+```
+
+b.
+```{r}
+range(JS$created)
+```
+
+c.
+```{r}
+par(mar=c(9,4,3,3))
+statusSource=unlist(gsub("<.*?>","",JS$statusSource))
+barplot(sort(table(statusSource),decreasing = TRUE),las=2,main = "Top platforms to send tweets @theJagmeetSing")
+```
