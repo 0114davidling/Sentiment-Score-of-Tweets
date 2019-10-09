@@ -1,0 +1,40 @@
+---
+title: "Q3"
+author: "David"
+date: '2019-03-11'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(knitr)
+library(twitteR)
+consumer_key = "dOLrbYfXjbDo7f7IZ3MFFDF4E"
+consumer_secret = "GKbWkDANMboESv0YwvSSZKWivvbIyEzhzZxroDIODY1thrk0Gz"
+access_token = "1050995496381120513-8E1z4xtsUYmNTjTRZCRLN4WYMkJjyZ"
+access_secret = "bAGtoWn9wR0EUKPybvr7yhK0FFaFJNRviV2LINV06pgRp"
+setup_twitter_oauth(consumer_key, consumer_secret,
+access_token, access_secret)
+```
+
+a.
+```{r}
+JS = userTimeline("theJagmeetSingh", n=3200, includeRts = TRUE)
+JS = twListToDF(JS)
+time=JS$created
+time=as.POSIXct(as.integer(time), origin = "1970-01-01", tz = "US/Pacific")
+time_hr=as.numeric(difftime(time, trunc(time, "days"), Sys.timezone(), "hours"))
+time_hr[1:5]
+```
+
+b.
+```{r}
+hist(time_hr,50,probability = TRUE, col="lightblue", xlab = "hours", main = "Distribution of time of tweets")
+lines(density(time_hr), col=2)
+legend(x="topright",lty = c(1,1),col =c(1,2),c("histogram","density"))
+```
+
+**Users most likely tweet in the afternoon.**
